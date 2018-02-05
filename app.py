@@ -12,7 +12,7 @@ from werkzeug.security import check_password_hash
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
 app.config['UPLOAD_FOLDER'] = 'archive'
-app.config['MONGO_DBNAME'] = 'betfairracing'
+app.config['MONGO_DBNAME'] = 'betfair'
 mongo = PyMongo(app)
 
 
