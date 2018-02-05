@@ -6,6 +6,7 @@ from functools import wraps
 from flask import (Flask, flash, redirect, render_template, request, session,
                    url_for)
 from flask_pymongo import PyMongo
+from modules.betfair import get_data
 from modules.forms import LoginForm
 from werkzeug.security import check_password_hash
 
@@ -68,7 +69,8 @@ def logout():
 @login_required
 def index():
     """Show the main page."""
-    return render_template('index.html', name=session['username'])
+    return render_template('index.html', name=session['username'],
+                           data=get_data())
 
 
 if __name__ == '__main__':

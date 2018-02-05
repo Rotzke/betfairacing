@@ -10,8 +10,9 @@ from email.mime.text import MIMEText
 import requests
 
 import pandas as pd
-from config import (email_password, email_username, fromaddress,
-                    payloadpassword, payloadusername, toaddress, xapplication)
+from modules.config import (email_password, email_username, fromaddress,
+                            payloadpassword, payloadusername, toaddress,
+                            xapplication)
 from tabulate import tabulate
 
 data = False
@@ -123,7 +124,7 @@ def login():
                'password': payloadpassword}
     response = requests.post(
         'https://identitysso.betfair.com/api/certlogin',
-        cert=os.path.join('assets', 'client-2048.pem'),
+        cert=os.path.join('modules', 'assets', 'client-2048.pem'),
         headers=headers, data=payload)
     return response.json()
 
@@ -371,8 +372,8 @@ def get_data():
     race_response = {}
     race_response['result'] = list(itertools.chain(*races))
     if not data:
-        print_table(races_json, race_response,
-                    'basic', timestamp, date)
+        return print_table(races_json, race_response,
+                           'basic', timestamp, date)
     elif data:
         print_table(races_json,
                     race_response,
