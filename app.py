@@ -70,7 +70,7 @@ def logout():
 def index():
     """Show the main page."""
     return render_template('index.html', name=session['username'],
-                           report=get_report())
+
 
 
 if __name__ == '__main__':
