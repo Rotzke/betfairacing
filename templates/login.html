@@ -1,0 +1,55 @@
+{% extends "basic.html" %}
+{% block title %}Login Page{% endblock%}
+{% block body %}
+<div class="row">
+    <hr/>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for category, message in messages %}
+            <div class="alert alert-dismissable alert-{{ category }}">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{ message }}
+            </div>
+            {% endfor %} {% endif %} {% endwith %}
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4 text-center">
+            <h3>Bittrex Machine Login Page<br /></h3>
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-5">
+    </div>
+    <div class="col-md-2">
+        <form role="form" method="POST" data-toggle="validator">
+            {{ form.csrf_token }}
+            <div class="form-group has-feedback">
+                <label>User ID</label> {{ form.username(class="form-control", required="required") }}
+                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                <div class="help-block with-errors"></div>
+            </div>
+            <div class="form-group has-feedback">
+                <label>Password</label> {{ form.password(class="form-control", required="required") }}
+                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                <div class="help-block with-errors"></div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-default btn-block">Submit</button>
+        </form>
+    </div>
+    <div class="col-md-5">
+    </div>
+</div>
+{% endblock %}
