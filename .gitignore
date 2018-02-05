@@ -9,6 +9,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 config.py
+client-2048.pem
 env/
 build/
 develop-eggs/

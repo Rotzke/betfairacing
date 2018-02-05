@@ -3,12 +3,11 @@
 import os
 from functools import wraps
 
-from flask import (Flask, current_app, flash, redirect, render_template,
-                   request, send_from_directory, session, url_for)
-from werkzeug.security import check_password_hash
-
+from flask import (Flask, flash, redirect, render_template, request, session,
+                   url_for)
 from flask_pymongo import PyMongo
 from modules.forms import LoginForm
+from werkzeug.security import check_password_hash
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
@@ -69,8 +68,7 @@ def logout():
 @login_required
 def index():
     """Show the main page."""
-    return render_template('index.html', name=session['username'],
-
+    return render_template('index.html', name=session['username'])
 
 
 if __name__ == '__main__':
