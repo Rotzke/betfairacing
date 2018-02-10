@@ -1,12 +1,13 @@
 #!/usr/bin/python3
 """Simple Flask-based Bittrex API wrapper server."""
+import json
 import os
 from functools import wraps
 
 from flask import (Flask, flash, redirect, render_template, request, session,
                    url_for)
 from flask_pymongo import PyMongo
-from modules.betfair import get_data
+from modules.betfair import get_data, get_races
 from modules.forms import LoginForm
 from werkzeug.security import check_password_hash
 
@@ -66,11 +67,17 @@ def logout():
 
 
 @app.route('/')
-@login_required
+#@login_required
 def index():
     """Show the main page."""
-    return render_template('index.html', name=session['username'],
-                           data=get_data())
+    return render_template('index.html', name='KOKOKO', races=get_races())
+
+
+@app.route('/compare.json')
+#@login_required
+def compare():
+    """Show the compare json."""
+    return json.dumps(get_data('compare'))
 
 
 if __name__ == '__main__':

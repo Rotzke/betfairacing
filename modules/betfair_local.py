@@ -9,10 +9,11 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 import requests
-from bson import SON
-from pymongo import MongoClient
 
 import pandas as pd
+from config import (email_password, email_username, fromaddress,
+                    payloadpassword, payloadusername, toaddress, xapplication)
+from pymongo import MongoClient
 from tabulate import tabulate
 
 client = MongoClient()
@@ -23,31 +24,6 @@ sleeper = 10
 ranger = 30.0
 woe = False
 regexp = r'-[6-9][0-9]?[0-9]?\.[0-9][0-9]?|-[1-9][0-9][0-9]?\.[0-9][0-9]?'
-
-
-def get_races():
-    """Get current races list."""
-    pipeline =\
-        [{"$match":
-          {"Update":
-           {"$gte": '{}'.format(datetime.utcnow().strftime('%Y-%m-%d'))
-            },
-           "Time":
-           {"$gte": '{}'.format(datetime.utcnow().strftime('%H:%M:%S'))}
-           }
-          },
-         {"$group":
-          {"_id":
-           {"Venue": "$Venue",
-            "Race": "$Race",
-            "Time": "$Time"
-            }
-           }
-          },
-         {"$sort": SON([("_id.Time", 1)])
-          }
-         ]
-    return len(list(db.basic.aggregate(pipeline)))
 
 
 def send_message(msg, fromaddr, toaddrs):
@@ -69,7 +45,8 @@ def send_letter(alert):
     # Letter to Alan
     msg = MIMEMultipart('alternative')
     text = alert
-    html = '<html><body><pre style="font: monospace">' + \
+    html =\
+        '<html><body><pre style="font: monospace">' + \
         alert.replace("\n", "<br />") + '</body></html>'
     msg['Subject'] = 'BetfairMaster Alert!'
     msg['From'] = fromaddr
@@ -151,7 +128,7 @@ def login():
                'password': payloadpassword}
     response = requests.post(
         'https://identitysso.betfair.com/api/certlogin',
-        cert=os.path.join(certificate, 'assets', 'client-2048.pem'),
+        cert=os.path.join('assets', 'client-2048.pem'),
         headers=headers, data=payload)
     return response.json()
 
@@ -274,7 +251,7 @@ def print_table(races, horses, goal, timestamp, date):
         return tablissito
 
 
-def get_data(mode):
+def get_data():
     """Parse and dump all horses data."""
     global data
     timestamp = datetime.now().strftime("%H-%M-%S")
@@ -283,6 +260,7 @@ def get_data(mode):
     login_data = login()
     login_status = login_data['loginStatus']
     if login_status != 'SUCCESS':
+        print('LOGIN')
         return
 
     # Starting main session
@@ -346,6 +324,7 @@ def get_data(mode):
     if len(races) > 0:
         pass
     else:
+        print('LEN RACES')
         return
     chunks = [races[x:x + 40] for x in range(0, len(races), 40)]
     races = []
@@ -367,18 +346,5 @@ def get_data(mode):
                                   headers=header).json()['result'])
     race_response = {}
     race_response['result'] = list(itertools.chain(*races))
-    if mode == 'basic':
-        return print_table(races_json, race_response,
-                           'basic', timestamp, date)
-    else:
-        return print_table(races_json, race_response,
-                           'compare', timestamp, date)
-
-
-if __name__ == '__main__':
-    from config import *
-    certificate = ''
-    get_data('basic')
-else:
-    from modules.config import *
-    certificate = 'modules'
+    return print_table(races_json, race_response,
+                       'compare', timestamp, date)

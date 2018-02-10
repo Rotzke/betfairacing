@@ -1,5 +1,5 @@
 {% extends "basic.html" %} {% block head %}
-<meta http-equiv="refresh" content="240">{% endblock %}{% block title %}Betfair Master{% endblock %} {% block body %}
+{% endblock %}{% block title %}Betfair Master{% endblock %} {% block body %}
 <div class="row">
     <div class="col-md-12">
         <nav class="navbar navbar-default navbar-inverse" role="navigation">
@@ -44,17 +44,46 @@
         </div>
     </div>
 </div>
-{% if data %}
 <div class="row">
     <div class="col-md-12">
-        <hr />
+        <div class="col-md-4">
+            <div class="jumbotron well">
+                <h2>
+                    Greetings, Alan!
+                </h2>
+                <p>
+                    Races for today:<h1>{{ races }}</h1>
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+            <div class="form-group text-center">
+                  <label for="sel1">Select update time:</label>
+                  <select class="form-control" id="sel1">
+                    <option>5</option>
+                    <option>10</option>
+                    <option>30</option>
+                    <option>60</option>
+                  </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+        </div>
+            <button id="btn-start" type="button" class="btn btn-success btn-lg btn-block">START/RESTART</button>
+            <button id="btn-update" type="button" class="btn btn-warning btn-lg btn-block">MANUAL UPDATE</button>
+            <button id="btn-stop" type="button" class="btn btn-danger btn-lg btn-block">STOP</button>
+        </div>
+        <div class="col-md-4">
+        </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-12">
-        <table class="table table-hover table-bordered">
-            <thead>
-                <tr>
+        <hr \>
+<table class="table table-bordered table-hover table-condensed" id="data-table">
+    <thead>
+        <tr>
                     <th>
                         Venue
                     </th>
@@ -73,34 +102,70 @@
                     <th>
                         Update
                     </th>
-                </tr>
-            </thead>
-            {% for d in data %}
-            <tbody>
-                <tr>
-                    <td>
-                        {{ d.Venue }}
-                    </td>
-                    <td>
-                        {{ d.Time }}
-                    </td>
-                    <td>
-                        {{ d.Horse }}
-                    </td>
-                    <td>
-                        {{ d.Race }}
-                    </td>
-                    <td>
-                        {{ d.Price }}
-                    </td>
-                    <td>
-                        {{ d.Update }}
-                    </td>
-                </tr>
-            </tbody>
-            {% endfor %}
-        </table>
+                    <th>
+                        Back
+                    </th>
+                    <th>
+                        Lay
+                    </th>
+
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
     </div>
 </div>
-{% endif %}
+<script>
+$(document).ready(function(e) {
+    document.getElementById("btn-stop").classList.add('disabled');
+    function getValue(){
+        var value= $.ajax({
+            url: 'compare.json',
+            async: false,
+            dataType: "jsonp",
+        }).responseText;
+        return JSON.parse(value);
+        };
+
+    function loadTable(tableId, fields, data) {
+        var rows = '';
+        $.each(data, function(index, item) {
+            if(item['Price'] > 1)
+            var row = '<tr class="success">';
+            else
+            var row = '<tr>';
+            $.each(fields, function(index, field) {
+                row += '<td>' + item[field+''] + '</td>';
+            });
+            rows += row + '<tr>';
+        });
+        $('#' + tableId + ' tbody').html(rows);
+    }
+
+
+    $('#btn-start').click(function(e) {
+        document.getElementById("btn-start").classList.add('disabled');
+        document.getElementById("btn-stop").classList.remove('disabled');
+        if (typeof myTimeout !== 'undefined')
+        clearInterval(myTimeout);
+        window.myTimeout = window.setInterval(function(){
+         loadTable('data-table', ['Venue', 'Time', 'Horse', 'Race', 'Price', 'Update', 'Back', 'Lay'], getValue());
+     }, parseInt($("#sel1").val() + '000'));
+    });
+
+    $('#btn-update').click(function(e) {
+        loadTable('data-table', ['Venue', 'Time', 'Horse', 'Race', 'Price', 'Update', 'Back', 'Lay'], getValue());
+    });
+
+    $('#btn-stop').click(function(e) {
+        if (typeof myTimeout !== 'undefined'){
+        document.getElementById("btn-stop").classList.add('disabled');
+        document.getElementById("btn-start").classList.remove('disabled');
+        clearInterval(myTimeout);
+    }
+    });
+
+});
+</script>
 {% endblock %}
