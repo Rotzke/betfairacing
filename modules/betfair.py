@@ -48,7 +48,10 @@ def get_races():
           },
          {"$count": "RacesCount"}
          ]
-    return list(db.basic.aggregate(pipeline))[0]['RacesCount']
+    try:
+        return list(db.basic.aggregate(pipeline))[0]['RacesCount']
+    except IndexError:
+        return False
 
 
 def send_message(msg, fromaddr, toaddrs):

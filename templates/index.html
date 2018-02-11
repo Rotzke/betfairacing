@@ -52,7 +52,11 @@
                     Greetings, {{ name }}!
                 </h2>
                 <p>
+                    {% if races %}
                     Races for today:<h1>{{ races }}</h1>
+                    {% else %}
+                    No races left for today. Cheers!
+                    {% endif %}
                 </p>
             </div>
         </div>
