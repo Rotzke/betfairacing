@@ -49,7 +49,7 @@
         <div class="col-md-4">
             <div class="jumbotron well">
                 <h2>
-                    Greetings, Alan!
+                    Greetings, {{ name }}!
                 </h2>
                 <p>
                     Races for today:<h1>{{ races }}</h1>
@@ -72,7 +72,7 @@
         </div>
         <div class="col-md-4">
         </div>
-            <button id="btn-start" type="button" class="btn btn-success btn-lg btn-block">START/RESTART</button>
+            <button id="btn-start" type="button" class="btn btn-success btn-lg btn-block">START</button>
             <button id="btn-update" type="button" class="btn btn-warning btn-lg btn-block">MANUAL UPDATE</button>
             <button id="btn-stop" type="button" class="btn btn-danger btn-lg btn-block">STOP</button>
         </div>
@@ -119,6 +119,7 @@
 <script>
 $(document).ready(function(e) {
     document.getElementById("btn-stop").classList.add('disabled');
+
     function getValue(){
         var value= $.ajax({
             url: 'compare.json',

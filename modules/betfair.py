@@ -45,9 +45,10 @@ def get_races():
            }
           },
          {"$sort": SON([("_id.Time", 1)])
-          }
+          },
+         {"$count": "RacesCount"}
          ]
-    return len(list(db.basic.aggregate(pipeline)))
+    return list(db.basic.aggregate(pipeline))[0]['RacesCount']
 
 
 def send_message(msg, fromaddr, toaddrs):
