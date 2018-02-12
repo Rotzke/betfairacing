@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """Betfair horse racing backs parser."""
+import argparse
 import itertools
 import json
 import os
@@ -20,9 +21,13 @@ db = client.betfair
 
 data = False
 sleeper = 10
-ranger = 30.0
+ranger = 70.0
 woe = False
 regexp = r'-[6-9][0-9]?[0-9]?\.[0-9][0-9]?|-[1-9][0-9][0-9]?\.[0-9][0-9]?'
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--ranger",
+                    help="Set ranger value, man.", required=False)
 
 
 def get_races():
@@ -45,13 +50,9 @@ def get_races():
            }
           },
          {"$sort": SON([("_id.Time", 1)])
-          },
-         {"$count": "RacesCount"}
+          }
          ]
-    try:
-        return list(db.basic.aggregate(pipeline))[0]['RacesCount']
-    except IndexError:
-        return False
+    return len(list(db.basic.aggregate(pipeline)))
 
 
 def send_message(msg, fromaddr, toaddrs):
@@ -155,7 +156,7 @@ def login():
                'password': payloadpassword}
     response = requests.post(
         'https://identitysso.betfair.com/api/certlogin',
-        cert=os.path.join(certificate, 'assets', 'client-2048.pem'),
+        cert='/home/ubuntu/betfairacing/modules/assets/client-2048.pem',
         headers=headers, data=payload)
     return response.json()
 
@@ -381,8 +382,8 @@ def get_data(mode):
 
 if __name__ == '__main__':
     from config import *
-    certificate = ''
+    if parser.parse_args().ranger:
+        ranger = float(parser.parse_args().ranger)
     get_data('basic')
 else:
     from modules.config import *
-    certificate = 'modules'

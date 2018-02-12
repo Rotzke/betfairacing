@@ -60,27 +60,48 @@
                 </p>
             </div>
         </div>
-        <div class="col-md-4">
             <div class="col-md-4">
-            </div>
-            <div class="col-md-4">
-            <div class="form-group text-center">
-                  <label for="sel1">Select update time:</label>
-                  <select class="form-control" id="sel1">
-                    <option>5</option>
-                    <option>10</option>
-                    <option>30</option>
-                    <option>60</option>
-                  </select>
-            </div>
-        </div>
-        <div class="col-md-4">
-        </div>
+            <form class="form">
+                <label for="sel2">Select price limit (<= points):</label>
+                <select class="form-control" id="sel2">
+                  <option>70</option>
+                  <option>60</option>
+                  <option>50</option>
+                  <option>40</option>
+                  <option>30</option>
+                  <option>25</option>
+                  <option>20</option>
+                  <option>15</option>
+                  <option>10</option>
+                  <option>8</option>
+                  <option>7</option>
+                  <option>6</option>
+                  <option>5</option>
+                </select>
+                <label for="sel1">Select update time (== seconds):</label>
+                <select class="form-control" id="sel1">
+                  <option>5</option>
+                  <option>10</option>
+                  <option>30</option>
+                  <option>60</option>
+                </select>
+            </form>
             <button id="btn-start" type="button" class="btn btn-success btn-lg btn-block">START</button>
             <button id="btn-update" type="button" class="btn btn-warning btn-lg btn-block">MANUAL UPDATE</button>
             <button id="btn-stop" type="button" class="btn btn-danger btn-lg btn-block">STOP</button>
         </div>
         <div class="col-md-4">
+            <div class="jumbotron well">
+                <h2>
+                    Attention label
+                </h2>
+                <p>
+                    Some VERY useful info here, noble sir!
+                </p>
+                <p>
+                    Lorem ipsum and stuff
+                </p>
+            </div>
         </div>
     </div>
 </div>
@@ -136,6 +157,7 @@ $(document).ready(function(e) {
     function loadTable(tableId, fields, data) {
         var rows = '';
         $.each(data, function(index, item) {
+            if(item['Price'] <= parseInt($("#sel2").val())){
             if(item['Price'] > 1)
             var row = '<tr class="success">';
             else
@@ -144,6 +166,7 @@ $(document).ready(function(e) {
                 row += '<td>' + item[field+''] + '</td>';
             });
             rows += row + '<tr>';
+        };
         });
         $('#' + tableId + ' tbody').html(rows);
     }
