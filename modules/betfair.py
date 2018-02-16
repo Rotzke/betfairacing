@@ -156,7 +156,7 @@ def login():
                'password': payloadpassword}
     response = requests.post(
         'https://identitysso.betfair.com/api/certlogin',
-        cert='/home/ubuntu/betfairacing/modules/assets/client-2048.pem',
+        cert='/home/rotsky/dev/betfairacing/modules/assets/client-2048.pem',
         headers=headers, data=payload)
     return response.json()
 

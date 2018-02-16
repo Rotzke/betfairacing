@@ -9,6 +9,7 @@ from flask import (Flask, flash, redirect, render_template, request, session,
 from flask_pymongo import PyMongo
 from modules.betfair import get_data, get_races
 from modules.forms import LoginForm
+from modules.racingpost import get_racingpost
 from werkzeug.security import check_password_hash
 
 app = Flask(__name__)
@@ -66,19 +67,34 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route('/')
-#@login_required
+@app.route('/betfair')
+# @login_required
 def index():
     """Show the main page."""
-    return render_template('index.html', name='KOKOKO', races=get_races())
+    return render_template('index.html', name='Alan')
+
+
+@app.route('/racingpost')
+# @login_required
+def racingpost():
+    """Show the main page."""
+    return render_template('racingpost.html',
+                           name='Alan')
 
 
 @app.route('/compare.json')
-#@login_required
-def compare():
+# @login_required
+def compare_json():
     """Show the compare json."""
     return json.dumps(get_data('compare'))
 
 
+@app.route('/racingpost.json')
+# @login_required
+def racingpost_json():
+    """Show the racingpost json."""
+    return get_racingpost()
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=80)

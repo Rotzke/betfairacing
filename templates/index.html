@@ -1,5 +1,11 @@
 {% extends "basic.html" %} {% block head %}
-{% endblock %}{% block title %}Betfair Master{% endblock %} {% block body %}
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
+<!-- Latest compiled and minified JavaScript -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+<!-- Latest compiled and minified Locales -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/locale/bootstrap-table-en-UK.min.js"></script>
+{% endblock %}{% block title %}Betfair{% endblock %} {% block body %}
 <div class="row">
     <div class="col-md-12">
         <nav class="navbar navbar-default navbar-inverse" role="navigation">
@@ -8,11 +14,11 @@
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li>
-                        <a href="#">Link</a>
+                    <li class='active'>
+                        <a href="#">Betfair</a>
                     </li>
                     <li>
-                        <a href="#">Link</a>
+                        <a href="/racingpost">Racingpost</a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -52,32 +58,12 @@
                     Greetings, {{ name }}!
                 </h2>
                 <p>
-                    {% if races %}
-                    Races for today:<h1>{{ races }}</h1>
-                    {% else %}
-                    No races left for today. Cheers!
-                    {% endif %}
+                    TEST
                 </p>
             </div>
         </div>
             <div class="col-md-4">
             <form class="form">
-                <label for="sel2">Select price limit (<= points):</label>
-                <select class="form-control" id="sel2">
-                  <option>70</option>
-                  <option>60</option>
-                  <option>50</option>
-                  <option>40</option>
-                  <option>30</option>
-                  <option>25</option>
-                  <option>20</option>
-                  <option>15</option>
-                  <option>10</option>
-                  <option>8</option>
-                  <option>7</option>
-                  <option>6</option>
-                  <option>5</option>
-                </select>
                 <label for="sel1">Select update time (== seconds):</label>
                 <select class="form-control" id="sel1">
                   <option>5</option>
@@ -106,31 +92,31 @@
     </div>
 </div>
         <hr \>
-<table class="table table-bordered table-hover table-condensed" id="data-table">
+<table id='table' data-toggle="table" data-url="compare.json" data-show-columns="true" data-height="600" data-search="true" data-toolbar="#toolbar">
     <thead>
         <tr>
-                    <th>
+                    <th data-field='Venue'>
                         Venue
                     </th>
-                    <th>
+                    <th data-field='Time'>
                         Time
                     </th>
-                    <th>
+                    <th data-field='Horse'>
                         Horse
                     </th>
-                    <th>
+                    <th data-field='Race'>
                         Race
                     </th>
-                    <th>
+                    <th data-field='Price'>
                         Price
                     </th>
-                    <th>
+                    <th data-field='Update'>
                         Update
                     </th>
-                    <th>
+                    <th data-field='Back'>
                         Back
                     </th>
-                    <th>
+                    <th data-field='Lay'>
                         Lay
                     </th>
 
@@ -144,46 +130,22 @@
 <script>
 $(document).ready(function(e) {
     document.getElementById("btn-stop").classList.add('disabled');
-
-    function getValue(){
-        var value= $.ajax({
-            url: 'compare.json',
-            async: false,
-            dataType: "jsonp",
-        }).responseText;
-        return JSON.parse(value);
-        };
-
-    function loadTable(tableId, fields, data) {
-        var rows = '';
-        $.each(data, function(index, item) {
-            if(item['Price'] <= parseInt($("#sel2").val())){
-            if(item['Price'] > 1)
-            var row = '<tr class="success">';
-            else
-            var row = '<tr>';
-            $.each(fields, function(index, field) {
-                row += '<td>' + item[field+''] + '</td>';
-            });
-            rows += row + '<tr>';
-        };
-        });
-        $('#' + tableId + ' tbody').html(rows);
-    }
-
-
+    function loadTable() {
+            var $table = $('#table');
+            $table.bootstrapTable('refresh');
+    };
     $('#btn-start').click(function(e) {
         document.getElementById("btn-start").classList.add('disabled');
         document.getElementById("btn-stop").classList.remove('disabled');
         if (typeof myTimeout !== 'undefined')
         clearInterval(myTimeout);
         window.myTimeout = window.setInterval(function(){
-         loadTable('data-table', ['Venue', 'Time', 'Horse', 'Race', 'Price', 'Update', 'Back', 'Lay'], getValue());
+            $('#table').bootstrapTable('refresh');
      }, parseInt($("#sel1").val() + '000'));
     });
 
     $('#btn-update').click(function(e) {
-        loadTable('data-table', ['Venue', 'Time', 'Horse', 'Race', 'Price', 'Update', 'Back', 'Lay'], getValue());
+        $('#table').bootstrapTable('refresh');
     });
 
     $('#btn-stop').click(function(e) {
@@ -193,7 +155,6 @@ $(document).ready(function(e) {
         clearInterval(myTimeout);
     }
     });
-
 });
 </script>
 {% endblock %}

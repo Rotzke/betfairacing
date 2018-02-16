@@ -1,0 +1,245 @@
+{% extends "basic.html" %} {% block head %}
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
+<!-- Latest compiled and minified JavaScript -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+
+<!-- Latest compiled and minified Locales -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/locale/bootstrap-table-en-UK.min.js"></script>
+{% endblock %}{% block title %}Racingpost{% endblock %} {% block body %}
+<div class="row">
+    <div class="col-md-12">
+        <nav class="navbar navbar-default navbar-inverse" role="navigation">
+            <div class="navbar-header active">
+                <a href="/" class="navbar-brand active">Betfair Master</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="/betfair">Betfair</a>
+                    </li>
+                    <li class="active">
+                        <a href="#">Racingpost</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome back, {{ name }}!<strong class="caret"></strong></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/logout">Log out</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for category, message in messages %}
+            <div class="alert alert-dismissable alert-{{ category }}">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{ message }}
+            </div>
+            {% endfor %} {% endif %} {% endwith %}
+        </div>
+        <div class="col-md-4">
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-4">
+            <div class="jumbotron well">
+                <h2>
+                    Greetings, {{ name }}!
+                </h2>
+                <p>
+                    TEST
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h2>PLACE FOR SOME FILTERS OR STUFF?</h2>
+        </div>
+        <div class="col-md-4">
+            <div class="jumbotron well">
+                <h2>
+                    Attention label
+                </h2>
+                <p>
+                    Some VERY useful info here, noble sir!
+                </p>
+                <p>
+                    Lorem ipsum and stuff
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+        <hr \>
+
+<table id='table' data-toggle="table" data-url="racingpost.json" data-show-columns="true" data-height="600" data-search="true">
+    <thead>
+        <tr>
+          <th data-field='Course'>
+            Course
+          </th>
+          <th data-field='Age'>
+            Age
+          </th>
+          <th data-field='Number'>
+            Number
+          </th>
+          <th data-field='Distance'>
+            Distance
+          </th>
+          <th data-field='Form'>
+            Form
+          </th>
+          <th data-field='Forc'>
+            Forc
+          </th>
+          <th data-field='Horse'>
+            Horse
+          </th>
+          <th data-field='Go'>
+            Go
+          </th>
+          <th data-field='Go %'>
+            Go %
+          </th>
+          <th data-field='Dist'>
+            Dist
+          </th>
+          <th data-field='Dist %'>
+            Dist %
+          </th>
+          <th data-field='Cse'>
+            Cse
+          </th>
+          <th data-field='Cse %'>
+            Cse %
+          </th>
+          <th data-field='Trainer'>
+            Trainer
+          </th>
+          <th data-field='T 14dys'>
+            T 14dys
+          </th>
+          <th data-field='T D W %'>
+            T D W %
+          </th>
+          <th data-field='T D £1 + -'>
+            T D £1 + -
+          </th>
+          <th data-field='T O/A Seas'>
+            T O/A Seas
+          </th>
+          <th data-field='T S W %'>
+            T S W %
+          </th>
+          <th data-field='T S £1 + -'>
+            T S £1 + -
+          </th>
+          <th data-field='RTF %'>
+            RTF %
+          </th>
+          <th data-field='T 5yr O/A'>
+            T 5yr O/A
+          </th>
+          <th data-field='T Won'>
+            T Won
+          </th>
+          <th data-field='Ran'>
+            Ran
+          </th>
+          <th data-field='T W %'>
+            T W %
+          </th>
+          <th data-field='Plcd'>
+            Plcd
+          </th>
+          <th data-field='T O/A Track'>
+            T O/A Track
+          </th>
+          <th data-field='T T W %'>
+            T T W %
+          </th>
+          <th data-field='T T £1 + -'>
+            T T £1 + -
+          </th>
+          <th data-field='T F Won'>
+            T F Won
+          </th>
+          <th data-field='T F W %'>
+            T F W %
+          </th>
+          <th data-field='T F £1 + -'>
+            T F £1 + -
+          </th>
+          <th data-field='Jockey'>
+            Jockey
+          </th>
+          <th data-field='J 14dys'>
+            J 14dys
+          </th>
+          <th data-field='J D W %'>
+            J D W %
+          </th>
+          <th data-field='J D £1 + -'>
+            J D £1 + -
+          </th>
+          <th data-field='J O/A Seas'>
+            J O/A Seas
+          </th>
+          <th data-field='J S W %'>
+            J S W %
+          </th>
+          <th data-field='J S £1 + -'>
+            J S £1 + -
+          </th>
+          <th data-field='J 5yr O/A'>
+            J 5yr O/A
+          </th>
+          <th data-field='J Won'>
+            J Won
+          </th>
+          <th data-field='Rode'>
+            Rode
+          </th>
+          <th data-field='J W %'>
+            J W %
+          </th>
+          <th data-field='J O/A Track'>
+            J O/A Track
+          </th>
+          <th data-field='J T W %'>
+            J T W %
+          </th>
+          <th data-field='J T £1 + -'>
+            J T £1 + -
+          </th>
+          <th data-field='J F Won'>
+            J F Won
+          </th>
+          <th data-field='J F W %'>
+            J F W %
+          </th>
+          <th data-field='J F £1 + -'>
+            J F £1 + -
+          </th>
+          <th data-field='Update'>
+              Update
+          </th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+{% endblock %}
