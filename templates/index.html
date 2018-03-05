@@ -62,7 +62,7 @@
                 </p>
             </div>
         </div>
-            <div class="col-md-4">
+        <div class="col-md-4">
             <form class="form">
                 <label for="sel1">Select update time (== seconds):</label>
                 <select class="form-control" id="sel1">
@@ -91,70 +91,71 @@
         </div>
     </div>
 </div>
-        <hr \>
+<hr \>
 <table id='table' data-toggle="table" data-url="compare.json" data-show-columns="true" data-height="600" data-search="true" data-toolbar="#toolbar">
     <thead>
         <tr>
-                    <th data-field='Venue'>
-                        Venue
-                    </th>
-                    <th data-field='Time'>
-                        Time
-                    </th>
-                    <th data-field='Horse'>
-                        Horse
-                    </th>
-                    <th data-field='Race'>
-                        Race
-                    </th>
-                    <th data-field='Price'>
-                        Price
-                    </th>
-                    <th data-field='Update'>
-                        Update
-                    </th>
-                    <th data-field='Back'>
-                        Back
-                    </th>
-                    <th data-field='Lay'>
-                        Lay
-                    </th>
+            <th data-field='Venue'>
+                Venue
+            </th>
+            <th data-field='Time'>
+                Time
+            </th>
+            <th data-field='Horse'>
+                Horse
+            </th>
+            <th data-field='Race'>
+                Race
+            </th>
+            <th data-field='Price'>
+                Price
+            </th>
+            <th data-field='Update'>
+                Update
+            </th>
+            <th data-field='Back'>
+                Back
+            </th>
+            <th data-field='Lay'>
+                Lay
+            </th>
 
         </tr>
     </thead>
     <tbody>
     </tbody>
 </table>
-    </div>
+</div>
 </div>
 <script>
-$(document).ready(function(e) {
-    document.getElementById("btn-stop").classList.add('disabled');
-    function loadTable() {
+    $(document).ready(function(e) {
+        document.getElementById("btn-stop").classList.add('disabled');
+
+        function loadTable() {
             var $table = $('#table');
             $table.bootstrapTable('refresh');
-    };
-    $('#btn-start').click(function(e) {
-        document.getElementById("btn-start").classList.add('disabled');
-        document.getElementById("btn-stop").classList.remove('disabled');
-        if (typeof myTimeout !== 'undefined')
-        clearInterval(myTimeout);
-        window.myTimeout = window.setInterval(function(){
+        };
+        $('#btn-start').click(function(e) {
+            document.getElementById("btn-start").classList.add('disabled');
+            document.getElementById("btn-stop").classList.remove('disabled');
+            if (typeof myTimeout !== 'undefined')
+                clearInterval(myTimeout);
+            window.myTimeout = window.setInterval(function() {
+                $('#table').bootstrapTable('refresh');
+            }, parseInt($("#sel1").val() + '000'));
+        });
+
+        $('#btn-update').click(function(e) {
             $('#table').bootstrapTable('refresh');
-     }, parseInt($("#sel1").val() + '000'));
-    });
+        });
 
-    $('#btn-update').click(function(e) {
-        $('#table').bootstrapTable('refresh');
+        $('#btn-stop').click(function(e) {
+            if (typeof myTimeout !== 'undefined') {
+                document.getElementById("btn-stop").classList.add('disabled');
+                document.getElementById("btn-start").classList.remove('disabled');
+                clearInterval(myTimeout);
+            }
+        });
     });
-
-    $('#btn-stop').click(function(e) {
-        if (typeof myTimeout !== 'undefined'){
-        document.getElementById("btn-stop").classList.add('disabled');
-        document.getElementById("btn-start").classList.remove('disabled');
-        clearInterval(myTimeout);
-    }
-    });
-});
 </script>
 {% endblock %}

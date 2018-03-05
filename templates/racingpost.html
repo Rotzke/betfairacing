@@ -7,277 +7,275 @@
 <!-- Latest compiled and minified Locales -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/locale/bootstrap-table-en-UK.min.js"></script>
 <script>
-$(function () {
-	function isInt(value) {
-	  if (isNaN(value)) {
-	    return 0;
-	  }
-	  var x = parseFloat(value);
-	  if ((x | 0) === x){
-	      return x
-	  } else {
-	      return 0
-	  }
-	  }
-var table = document.getElementById("table");
-	$('#export').click(function () {
-		var total = $('th[data-field="Total"]').index();
-		var summms = ['Cse %', 'Go %'];
-		$('#table > tbody  > tr').each(function() {
-			$(this).find('td').eq(total).text('0');
-		});
+	$(function() {
+		function isInt(value) {
+			if (isNaN(value)) {
+				return 0;
+			}
+			var x = parseFloat(value);
+			if ((x | 0) === x) {
+				return x
+			} else {
+				return 0
+			}
+		}
+		var table = document.getElementById("table");
+		$('#export').click(function() {
+			var total = $('th[data-field="Total"]').index();
+			var summms = ['Cse %', 'Go %'];
+			$('#table > tbody  > tr').each(function() {
+				$(this).find('td').eq(total).text('0');
+			});
 
-		for (var i in summms) {
-			var indexxx = $('th[data-field="' + summms[i] + '"]').index();
-			if (indexxx >= 0) {
-				$('#table > tbody  > tr').each(function() {
-					var totalize = isInt($(this).find('td').eq(total).text());
-					var stuff = isInt($(this).find('td').eq(indexxx).text());
-					$(this).find('td').eq(total).text(totalize += stuff)
-				});
+			for (var i in summms) {
+				var indexxx = $('th[data-field="' + summms[i] + '"]').index();
+				if (indexxx >= 0) {
+					$('#table > tbody  > tr').each(function() {
+						var totalize = isInt($(this).find('td').eq(total).text());
+						var stuff = isInt($(this).find('td').eq(indexxx).text());
+						$(this).find('td').eq(total).text(totalize += stuff)
+					});
+				};
 			};
-		};
-});
-});
-
-
+		});
+	});
 </script>
 {% endblock %}{% block title %}Racingpost{% endblock %} {% block body %}
 <div class="row">
-    <div class="col-md-12">
-        <nav class="navbar navbar-default navbar-inverse" role="navigation">
-            <div class="navbar-header active">
-                <a href="/" class="navbar-brand active">Betfair Master</a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="/betfair">Betfair</a>
-                    </li>
-                    <li class="active">
-                        <a href="#">Racingpost</a>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome back, {{ name }}!<strong class="caret"></strong></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="/logout">Log out</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </div>
+	<div class="col-md-12">
+		<nav class="navbar navbar-default navbar-inverse" role="navigation">
+			<div class="navbar-header active">
+				<a href="/" class="navbar-brand active">Betfair Master</a>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li>
+						<a href="/betfair">Betfair</a>
+					</li>
+					<li class="active">
+						<a href="#">Racingpost</a>
+					</li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome back, {{ name }}!<strong class="caret"></strong></a>
+						<ul class="dropdown-menu">
+							<li>
+								<a href="/logout">Log out</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</div>
 </div>
 <div class="row">
-    <div class="col-md-12">
-        <div class="col-md-4">
-        </div>
-        <div class="col-md-4">
-            {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for category, message in messages %}
-            <div class="alert alert-dismissable alert-{{ category }}">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{ message }}
-            </div>
-            {% endfor %} {% endif %} {% endwith %}
-        </div>
-        <div class="col-md-4">
-        </div>
-    </div>
+	<div class="col-md-12">
+		<div class="col-md-4">
+		</div>
+		<div class="col-md-4">
+			{% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for category, message in messages %}
+			<div class="alert alert-dismissable alert-{{ category }}">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> {{ message }}
+			</div>
+			{% endfor %} {% endif %} {% endwith %}
+		</div>
+		<div class="col-md-4">
+		</div>
+	</div>
 </div>
 <div class="row">
-    <div class="col-md-12">
-        <div class="col-md-4">
-            <div class="jumbotron well">
-                <h2>
+	<div class="col-md-12">
+		<div class="col-md-4">
+			<div class="jumbotron well">
+				<h2>
                     Greetings, {{ name }}!
                 </h2>
-                <p>
-                    TEST
-                </p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <h2>PLACE FOR SOME FILTERS OR STUFF?</h2>
-        </div>
-        <div class="col-md-4">
-            <div class="jumbotron well">
-                <h2>
+				<p>
+					TEST
+				</p>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<h2>PLACE FOR SOME FILTERS OR STUFF?</h2>
+		</div>
+		<div class="col-md-4">
+			<div class="jumbotron well">
+				<h2>
                     Attention label
                 </h2>
-                <p>
-                    Some VERY useful info here, noble sir!
-                </p>
-                <p>
-                    Lorem ipsum and stuff
-                </p>
-            </div>
-        </div>
-    </div>
+				<p>
+					Some VERY useful info here, noble sir!
+				</p>
+				<p>
+					Lorem ipsum and stuff
+				</p>
+			</div>
+		</div>
+	</div>
 </div>
-        <hr \>
+<hr \>
 <div id="toolbar">
-  <button id="export" class="btn btn-default">Calculate Total</button>
+	<button id="export" class="btn btn-default">Calculate Total</button>
 </div>
 <table id='table' data-toolbar="#toolbar" data-toggle="table" data-url="racingpost.json" data-show-columns="true" data-height="600" data-search="true">
-    <thead>
-        <tr>
-          <th data-field='Course' data-sortable="true">
-            Course
-          </th>
-          <th data-field='Age' data-sortable="true">
-            Age
-          </th>
-          <th data-field='Distance' data-sortable="true">
-            Distance
-          </th>
-          <th data-field='Form' data-sortable="true">
-            Form
-          </th>
-          <th data-field='Forc' data-sortable="true">
-            Forc
-          </th>
-          <th data-field='Horse' data-sortable="true">
-            Horse
-          </th>
-          <th data-field='Go' data-sortable="true">
-            Go
-          </th>
-          <th data-field='Go %' data-sortable="true">
-            Go %
-          </th>
-          <th data-field='Dist' data-sortable="true">
-            Dist
-          </th>
-          <th data-field='Dist %' data-sortable="true">
-            Dist %
-          </th>
-          <th data-field='Cse' data-sortable="true">
-            Cse
-          </th>
-          <th data-field='Cse %' data-sortable="true">
-            Cse %
-          </th>
-          <th data-field='Trainer' data-sortable="true">
-            Trainer
-          </th>
-          <th data-field='T 14dys' data-sortable="true">
-            T 14dys
-          </th>
-          <th data-field='T D W %' data-sortable="true">
-            T D W %
-          </th>
-          <th data-field='T D £1 + -' data-sortable="true">
-            T D £1 + -
-          </th>
-          <th data-field='T O/A Seas' data-sortable="true">
-            T O/A Seas
-          </th>
-          <th data-field='T S W %' data-sortable="true">
-            T S W %
-          </th>
-          <th data-field='T S £1 + -' data-sortable="true">
-            T S £1 + -
-          </th>
-          <th data-field='RTF %' data-sortable="true">
-            RTF %
-          </th>
-          <th data-field='T 5yr O/A' data-sortable="true">
-            T 5yr O/A
-          </th>
-          <th data-field='T Won' data-sortable="true">
-            T Won
-          </th>
-          <th data-field='Ran' data-sortable="true">
-            Ran
-          </th>
-          <th data-field='T W %' data-sortable="true">
-            T W %
-          </th>
-          <th data-field='Plcd' data-sortable="true">
-            Plcd
-          </th>
-          <th data-field='T O/A Track' data-sortable="true">
-            T O/A Track
-          </th>
-          <th data-field='T T W %' data-sortable="true">
-            T T W %
-          </th>
-          <th data-field='T T £1 + -' data-sortable="true">
-            T T £1 + -
-          </th>
-          <th data-field='T F Won' data-sortable="true">
-            T F Won
-          </th>
-          <th data-field='T F W %' data-sortable="true">
-            T F W %
-          </th>
-          <th data-field='T F £1 + -' data-sortable="true">
-            T F £1 + -
-          </th>
-          <th data-field='Jockey' data-sortable="true">
-            Jockey
-          </th>
-          <th data-field='J 14dys' data-sortable="true">
-            J 14dys
-          </th>
-          <th data-field='J D W %' data-sortable="true">
-            J D W %
-          </th>
-          <th data-field='J D £1 + -' data-sortable="true">
-            J D £1 + -
-          </th>
-          <th data-field='J O/A Seas' data-sortable="true">
-            J O/A Seas
-          </th>
-          <th data-field='J S W %' data-sortable="true">
-            J S W %
-          </th>
-          <th data-field='J S £1 + -' data-sortable="true">
-            J S £1 + -
-          </th>
-          <th data-field='J 5yr O/A' data-sortable="true">
-            J 5yr O/A
-          </th>
-          <th data-field='J Won' data-sortable="true">
-            J Won
-          </th>
-          <th data-field='Rode' data-sortable="true">
-            Rode
-          </th>
-          <th data-field='J W %' data-sortable="true">
-            J W %
-          </th>
-          <th data-field='J O/A Track' data-sortable="true">
-            J O/A Track
-          </th>
-          <th data-field='J T W %' data-sortable="true">
-            J T W %
-          </th>
-          <th data-field='J T £1 + -' data-sortable="true">
-            J T £1 + -
-          </th>
-          <th data-field='J F Won' data-sortable="true">
-            J F Won
-          </th>
-          <th data-field='J F W %' data-sortable="true">
-            J F W %
-          </th>
-          <th data-field='J F £1 + -' data-sortable="true">
-            J F £1 + -
-          </th>
-          <th data-field='Update' data-sortable="true">
-              Update
-          </th>
-          <th data-field='Total' data-sortable="true">
-              Total %
-          </th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
+	<thead>
+		<tr>
+			<th data-field='Course' data-sortable="true">
+				Course
+			</th>
+			<th data-field='Age' data-sortable="true">
+				Age
+			</th>
+			<th data-field='Distance' data-sortable="true">
+				Distance
+			</th>
+			<th data-field='Form' data-sortable="true">
+				Form
+			</th>
+			<th data-field='Forc' data-sortable="true">
+				Forc
+			</th>
+			<th data-field='Horse' data-sortable="true">
+				Horse
+			</th>
+			<th data-field='Go' data-sortable="true">
+				Go
+			</th>
+			<th data-field='Go %' data-sortable="true">
+				Go %
+			</th>
+			<th data-field='Dist' data-sortable="true">
+				Dist
+			</th>
+			<th data-field='Dist %' data-sortable="true">
+				Dist %
+			</th>
+			<th data-field='Cse' data-sortable="true">
+				Cse
+			</th>
+			<th data-field='Cse %' data-sortable="true">
+				Cse %
+			</th>
+			<th data-field='Trainer' data-sortable="true">
+				Trainer
+			</th>
+			<th data-field='T 14dys' data-sortable="true">
+				T 14dys
+			</th>
+			<th data-field='T D W %' data-sortable="true">
+				T D W %
+			</th>
+			<th data-field='T D £1 + -' data-sortable="true">
+				T D £1 + -
+			</th>
+			<th data-field='T O/A Seas' data-sortable="true">
+				T O/A Seas
+			</th>
+			<th data-field='T S W %' data-sortable="true">
+				T S W %
+			</th>
+			<th data-field='T S £1 + -' data-sortable="true">
+				T S £1 + -
+			</th>
+			<th data-field='RTF %' data-sortable="true">
+				RTF %
+			</th>
+			<th data-field='T 5yr O/A' data-sortable="true">
+				T 5yr O/A
+			</th>
+			<th data-field='T Won' data-sortable="true">
+				T Won
+			</th>
+			<th data-field='Ran' data-sortable="true">
+				Ran
+			</th>
+			<th data-field='T W %' data-sortable="true">
+				T W %
+			</th>
+			<th data-field='Plcd' data-sortable="true">
+				Plcd
+			</th>
+			<th data-field='T O/A Track' data-sortable="true">
+				T O/A Track
+			</th>
+			<th data-field='T T W %' data-sortable="true">
+				T T W %
+			</th>
+			<th data-field='T T £1 + -' data-sortable="true">
+				T T £1 + -
+			</th>
+			<th data-field='T F Won' data-sortable="true">
+				T F Won
+			</th>
+			<th data-field='T F W %' data-sortable="true">
+				T F W %
+			</th>
+			<th data-field='T F £1 + -' data-sortable="true">
+				T F £1 + -
+			</th>
+			<th data-field='Jockey' data-sortable="true">
+				Jockey
+			</th>
+			<th data-field='J 14dys' data-sortable="true">
+				J 14dys
+			</th>
+			<th data-field='J D W %' data-sortable="true">
+				J D W %
+			</th>
+			<th data-field='J D £1 + -' data-sortable="true">
+				J D £1 + -
+			</th>
+			<th data-field='J O/A Seas' data-sortable="true">
+				J O/A Seas
+			</th>
+			<th data-field='J S W %' data-sortable="true">
+				J S W %
+			</th>
+			<th data-field='J S £1 + -' data-sortable="true">
+				J S £1 + -
+			</th>
+			<th data-field='J 5yr O/A' data-sortable="true">
+				J 5yr O/A
+			</th>
+			<th data-field='J Won' data-sortable="true">
+				J Won
+			</th>
+			<th data-field='Rode' data-sortable="true">
+				Rode
+			</th>
+			<th data-field='J W %' data-sortable="true">
+				J W %
+			</th>
+			<th data-field='J O/A Track' data-sortable="true">
+				J O/A Track
+			</th>
+			<th data-field='J T W %' data-sortable="true">
+				J T W %
+			</th>
+			<th data-field='J T £1 + -' data-sortable="true">
+				J T £1 + -
+			</th>
+			<th data-field='J F Won' data-sortable="true">
+				J F Won
+			</th>
+			<th data-field='J F W %' data-sortable="true">
+				J F W %
+			</th>
+			<th data-field='J F £1 + -' data-sortable="true">
+				J F £1 + -
+			</th>
+			<th data-field='Update' data-sortable="true">
+				Update
+			</th>
+			<th data-field='Total' data-sortable="true">
+				Total %
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+	</tbody>
 </table>
 
 {% endblock %}
