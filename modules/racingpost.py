@@ -59,8 +59,8 @@ def totalizer(numbers):
             total += float(str(n).replace('%', ''))
         except:
             logging.warning('\t\tPossible data loss!')
-            total += float(10000)
-    return str(int(round(total))) + '%'
+
+    return int(round(total))
 
 
 def grab_events():
@@ -163,11 +163,11 @@ def process_horse(race_type, advanced, final, tree, num, horse, data):
         '"{}")][1]/parent::td/parent::tr//td//text()'.format(
             data['Horse'])) if i.strip()]
     data['Go'] = re.sub('\s+', ' ', horse_data[1])
-    data['Go %'] = re.sub('\s+', ' ', horse_data[2])
+    data['Go %'] = re.sub('\s+', ' ', horse_data[2]).replace('%', '')
     data['Dist'] = re.sub('\s+', ' ', horse_data[3])
-    data['Dist %'] = re.sub('\s+', ' ', horse_data[4])
+    data['Dist %'] = re.sub('\s+', ' ', horse_data[4]).replace('%', '')
     data['Cse'] = re.sub('\s+', ' ', horse_data[5])
-    data['Cse %'] = re.sub('\s+', ' ', horse_data[6])
+    data['Cse %'] = re.sub('\s+', ' ', horse_data[6]).replace('%', '')
 
     # Filling the "Trainer" advanced columns
     trainer_data = [i.strip() for i in advanced.xpath(
@@ -176,13 +176,13 @@ def process_horse(race_type, advanced, final, tree, num, horse, data):
             trainer_name)) if i.strip()]
     try:
         data['T 14dys'] = re.sub('\s+', ' ', trainer_data[1])
-        data['T D W %'] = re.sub('\s+', ' ', trainer_data[2])
+        data['T D W %'] = re.sub('\s+', ' ', trainer_data[2]).replace('%', '')
         data['T D £1 + -'] = re.sub('\s+', ' ', trainer_data[3])
         data['T O/A Seas'] = re.sub('\s+', ' ', trainer_data[4])
-        data['T S W %'] = re.sub('\s+', ' ', trainer_data[5])
+        data['T S W %'] = re.sub('\s+', ' ', trainer_data[5]).replace('%', '')
         data['T S £1 + -'] = re.sub('\s+', ' ', trainer_data[6])
         data['T O/A Track'] = re.sub('\s+', ' ', trainer_data[4])
-        data['T T W %'] = re.sub('\s+', ' ', trainer_data[5])
+        data['T T W %'] = re.sub('\s+', ' ', trainer_data[5]).replace('%', '')
         data['T T £1 + -'] = re.sub('\s+', ' ', trainer_data[6])
     except:
         logging.warning('\t\tMissing trainer data!')
@@ -213,10 +213,11 @@ def process_horse(race_type, advanced, final, tree, num, horse, data):
                 logging.warning('Website blocked request, sleep...')
                 sleep(30)
 
-        data['RTF %'] = str(
-            int(round(advanced_trainer_data['profile']['runningToForm'], 0)))
+        data['RTF %'] =\
+            str(int(
+                round(advanced_trainer_data['profile']['runningToForm'], 0)))
         if data['RTF %'] is not None:
-            data['RTF %'] = data['RTF %'] + '%'
+            data['RTF %'] = data['RTF %'].replace('%', '')
         if race_type[0] == 'Jumps':
             data['T Won'] =\
                 advanced_trainer_data['recordsByType']['recByType{}{}'.format(
@@ -233,9 +234,10 @@ def process_horse(race_type, advanced, final, tree, num, horse, data):
                     'recByType{}{}'.format(
                         country, race_type[0])]['5']['data']['recordByRaceType'
                                                              ][race_type[1]
-                                                               ]['percent'])
-            if data['T W %'] is not None and data['T W %'] != 'None':
-                data['T W %'] = data['T W %'] + '%'
+                                                               ]['percent']
+                    )
+            if data['T W %'] is not None and data['T W %'].strip() != 'None':
+                data['T W %'] = data['T W %'].replace('%', '')
 
             data['Plcd'] =\
                 advanced_trainer_data['recordsByType']['recByType{}{}'.format(
@@ -268,8 +270,8 @@ def process_horse(race_type, advanced, final, tree, num, horse, data):
                                               race_type[2][1]) + race_type[1
                                                                            ]
                               ]['percent'])
-            if data['T W %'] is not None and data['T W %'] != 'None':
-                data['T W %'] = data['T W %'] + '%'
+            if data['T W %'] is not None and data['T W %'].strip() != 'None':
+                data['T W %'] = data['T W %'].replace('%', '')
 
             data['Plcd'] =\
                 advanced_trainer_data['recordsByType']['recByType{}{}'.format(
@@ -306,19 +308,23 @@ def process_horse(race_type, advanced, final, tree, num, horse, data):
         if race_type[0] == 'Jumps':
             if race_type[1] == 'HURDLE':
                 data['T F Won'] = re.sub('\s+', ' ', final_trainer_data[4])
-                data['T F W %'] = re.sub('\s+', ' ', final_trainer_data[5])
+                data['T F W %'] = re.sub(
+                    '\s+', ' ', final_trainer_data[5]).replace('%', '')
                 data['T F £1 + -'] = re.sub('\s+', ' ', final_trainer_data[6])
             elif race_type[1] == 'CHASE':
                 data['T F Won'] = re.sub('\s+', ' ', final_trainer_data[7])
-                data['T F W %'] = re.sub('\s+', ' ', final_trainer_data[8])
+                data['T F W %'] = re.sub(
+                    '\s+', ' ', final_trainer_data[8]).replace('%', '')
                 data['T F £1 + -'] = re.sub('\s+', ' ', final_trainer_data[9])
             elif race_type[1] == 'NHF':
                 data['T F Won'] = re.sub('\s+', ' ', final_trainer_data[10])
-                data['T F W %'] = re.sub('\s+', ' ', final_trainer_data[11])
+                data['T F W %'] = re.sub(
+                    '\s+', ' ', final_trainer_data[11]).replace('%', '')
                 data['T F £1 + -'] = re.sub('\s+', ' ', final_trainer_data[12])
         elif race_type[0] == 'Flat':
             data['T F Won'] = re.sub('\s+', ' ', final_trainer_data[10])
-            data['T F W %'] = re.sub('\s+', ' ', final_trainer_data[11])
+            data['T F W %'] = re.sub(
+                '\s+', ' ', final_trainer_data[11]).replace('%', '')
             data['T F £1 + -'] = re.sub('\s+', ' ', final_trainer_data[12])
     except:
         data['T F Won'] = '-'
@@ -332,13 +338,13 @@ def process_horse(race_type, advanced, final, tree, num, horse, data):
             jockey_name)) if i.strip()]
     try:
         data['J 14dys'] = re.sub('\s+', ' ', jockey_data[1])
-        data['J D W %'] = re.sub('\s+', ' ', jockey_data[2])
+        data['J D W %'] = re.sub('\s+', ' ', jockey_data[2]).replace('%', '')
         data['J D £1 + -'] = re.sub('\s+', ' ', jockey_data[3])
         data['J O/A Seas'] = re.sub('\s+', ' ', jockey_data[4])
-        data['J S W %'] = re.sub('\s+', ' ', jockey_data[5])
+        data['J S W %'] = re.sub('\s+', ' ', jockey_data[5]).replace('%', '')
         data['J S £1 + -'] = re.sub('\s+', ' ', jockey_data[6])
         data['J O/A Track'] = re.sub('\s+', ' ', jockey_data[4])
-        data['J T W %'] = re.sub('\s+', ' ', jockey_data[5])
+        data['J T W %'] = re.sub('\s+', ' ', jockey_data[5]).replace('%', '')
         data['J T £1 + -'] = re.sub('\s+', ' ', jockey_data[6])
     except:
         logging.warning('\t\tMissing jockey data!')
@@ -386,9 +392,10 @@ def process_horse(race_type, advanced, final, tree, num, horse, data):
                     'recByType{}{}'.format(
                         country, race_type[0])]['5']['data']['recordByRaceType'
                                                              ][race_type[1]
-                                                               ]['winPercent'])
+                                                               ]['winPercent']
+                    )
             if data['J W %'] is not None and data['J W %'] != 'None':
-                data['J W %'] = data['J W %'] + '%'
+                data['J W %'] = data['J W %'].replace('%', '')
 
         else:
             data['J Won'] =\
@@ -417,7 +424,7 @@ def process_horse(race_type, advanced, final, tree, num, horse, data):
                                                                            ]
                               ]['winPercent'])
             if data['J W %'] is not None and data['J W %'] != 'None':
-                data['J W %'] = data['J W %'] + '%'
+                data['J W %'] = data['J W %'].replace('%', '')
 
     except:
         logging.warning('\t\tAdvanced jockey data is not available!')
@@ -445,31 +452,35 @@ def process_horse(race_type, advanced, final, tree, num, horse, data):
         if race_type[0] == 'Jumps':
             if race_type[1] == 'HURDLE':
                 data['J F Won'] = re.sub('\s+', ' ', final_jockey_data[4])
-                data['J F W %'] = re.sub('\s+', ' ', final_jockey_data[5])
+                data['J F W %'] = re.sub(
+                    '\s+', ' ', final_jockey_data[5]).replace('%', '')
                 data['J F £1 + -'] = re.sub('\s+', ' ', final_jockey_data[6])
             elif race_type[1] == 'CHASE':
                 data['J F Won'] = re.sub('\s+', ' ', final_jockey_data[7])
-                data['J F W %'] = re.sub('\s+', ' ', final_jockey_data[8])
+                data['J F W %'] = re.sub(
+                    '\s+', ' ', final_jockey_data[8]).replace('%', '')
                 data['J F £1 + -'] = re.sub('\s+', ' ', final_jockey_data[9])
             elif race_type[1] == 'NHF':
                 data['J F Won'] = re.sub('\s+', ' ', final_jockey_data[10])
-                data['J F W %'] = re.sub('\s+', ' ', final_jockey_data[11])
+                data['J F W %'] = re.sub(
+                    '\s+', ' ', final_jockey_data[11]).replace('%', '')
                 data['J F £1 + -'] = re.sub('\s+', ' ', final_jockey_data[12])
         elif race_type[0] == 'Flat':
             data['J F Won'] = re.sub('\s+', ' ', final_jockey_data[10])
-            data['J F W %'] = re.sub('\s+', ' ', final_jockey_data[11])
+            data['J F W %'] = re.sub(
+                '\s+', ' ', final_jockey_data[11]).replace('%', '')
             data['J F £1 + -'] = re.sub('\s+', ' ', final_jockey_data[12])
     except:
         data['J F Won'] = '-'
         data['J F W %'] = '-'
         data['J F £1 + -'] = '-'
 
-    # data['Mean'] = totalizer([data['Go %'], data['Dist %'],
-    #                         data['Cse %'], data['T D W %'], data['T S W %'],
-    #                         data['RTF %'], data['T W %'], data['T T W %'],
-    #                         data['T F W %'], data['J D W %'],
-    #                         data['J S W %'],
-    #                         data['J W %'], data['J T W %'], data['J F W %']])
+    data['Mean'] = totalizer([data['Go %'], data['Dist %'],
+                              data['Cse %'], data['T D W %'], data['T S W %'],
+                              data['RTF %'], data['T W %'], data['T T W %'],
+                              data['T F W %'], data['J D W %'],
+                              data['J S W %'],
+                              data['J W %'], data['J T W %'], data['J F W %']])
     data['Horse'] = '<a href={}>{}</a>'.format(base + tree.xpath(
         '//a[contains(text(), "{}")]'.format(data['Horse']) +
         '/parent::div/parent::div/parent::div' +
