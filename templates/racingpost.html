@@ -22,7 +22,7 @@
 		var table = document.getElementById("table");
 		$('#export').click(function() {
 			var total = $('th[data-field="Total"]').index();
-			var summms = ['Cse %', 'Go %'];
+			var summms = ['Cse %', 'Go %', 'Dist %', 'T D W %', 'T S W %', 'RTF %', 'T W %', 'T T W %', 'T F W %', 'J D W %', 'J S W %', 'J W %', 'J T W %', 'J F W %'];
 			$('#table > tbody  > tr').each(function() {
 				$(this).find('td').eq(total).text('0');
 			});
@@ -117,7 +117,7 @@
 </div>
 <hr \>
 <div id="toolbar">
-	<button id="export" class="btn btn-default">Calculate Total</button>
+	<button id="export" class="btn btn-primary">Calculate Total</button>
 </div>
 <table id='table' data-toolbar="#toolbar" data-toggle="table" data-url="racingpost.json" data-show-columns="true" data-height="600" data-search="true">
 	<thead>
